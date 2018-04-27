@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardDB">
+
+<select id="getList" parameterType="pagerVO"  resultMap="resultMapList"> <!-- vo를 받아다가 알아서 list를 만든다 -->
+
+	select *
+		from (
+			 	select tbl.*,rownum rnum 
+					from (
+						 select b.*,u.name
+							 from 	board_tbl b,user_tbl u 
+									where b.user_no=u.no
+									 order by b.no desc								
+									) tbl
+			
+				 
+				<if test="kwd!=null">
+				  where	 tbl.title like '%'||#{kwd}||'%' 
+				</if>
+			
+			  ) 
+				
+	where rnum between #{begin} and #{end} 
+		
+</select>
+
+<resultMap type="boardVO" id="resultMapList">
+	<result column="no" property="no"/>
+	<result column="title" property="title"/>
+	<result column="content" property="content"/>
+	<result column="user_no" property="user_no"/>
+	<result column="reg_date" property="date"/>
+	<result column="hit" property="hit"/>
+	<result column="rnum" property="rnum"/>
+	<result column="name" property="name"/>
+</resultMap>
+
+
+<select id="getList_count" parameterType="string"  resultType="int"> <!-- vo를 받아다가 알아서 list를 만든다 -->
+	select count(*) from board_tbl
+		<if test="_parameter!=null">
+				 where title like '%'||#{kwd}||'%' 
+		</if>
+</select>
+
+<select id="getText" parameterType="string" resultType="boardVO">
+
+	select * from board_tbl where no=#{no}
+
+</select>
+
+<select id="searchList" parameterType="string" resultMap="resultMapList">
+<![CDATA[
+	select b.*,u.name 
+	from board_tbl b,user_tbl u 
+	where b.user_no=u.no and
+	b.title like '%'||#{kwd}||'%'
+	
+]]>
+</select>
+<update id="upHit" parameterType="map"> 
+	update board_tbl 
+	set hit=hit+1 
+	where no=#{no} and hit=#{hit}
+</update>
+
+<insert id="insert" parameterType="boardVO">
+
+	insert into board_tbl
+	values(seq_board_no.nextval,#{title},#{content},'0',sysdate,#{user_no})
+
+</insert>
+
+<delete id="delete" parameterType="string">
+	delete from board_tbl
+	where no=#{no}	
+</delete>
+
+
+<update id="update" parameterType="boardVO">
+	update board_tbl
+	set title=#{title}, content=#{content}
+	where no=#{no}
+</update>
+</mapper>

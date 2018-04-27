@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userDB">
+
+
+
+
+<insert id="insert" parameterType="userVO" > <!-- 변수가 여러개이면 vo 객체형태로 담아서 보내야한다. 한개 정도는 String이나 Integer 객체에 담아 보낼 수 있다.-->     
+	<![CDATA[
+	insert into user_tbl
+	values(seq_user_no2.nextval,#{name},#{email},#{password},#{gender})	
+       ]]>
+</insert>
+
+
+<select id="getUser"  parameterType="map" resultType="userVO">
+	<![CDATA[
+	select no,name
+	from user_tbl 
+	where email=#{email} and password=#{password}
+    ]]>
+
+</select>
+
+ <select id="getAll"  parameterType="string" resultType="userVO" > 
+	<![CDATA[
+		select no,name,email,gender
+		from user_tbl 
+		where no=#{no}
+     ]]>
+</select>
+
+
+<update id="update" parameterType="userVO">
+	<![CDATA[
+	update user_tbl
+	set no=#{no} , name=#{name}, email= #{email},password=#{password},gender=#{gender}	
+	where no=#{no}
+       ]]>
+
+</update>
+</mapper>
