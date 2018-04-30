@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVO;
@@ -53,6 +54,8 @@ public class UserController {
 	}
 	
 	
+	
+	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		
@@ -65,7 +68,7 @@ public class UserController {
 	
 	
 	
-	@RequestMapping(value="/joinform",method=RequestMethod.POST) 
+	@RequestMapping(value="/joinform",method=RequestMethod.GET) 
 	public String joinForm(){
 		
 		return "user/joinform";
@@ -102,6 +105,20 @@ public class UserController {
 				
 		
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/emailcheck",method=RequestMethod.POST)
+	public boolean emailcheck(@RequestParam("email") String email) {
+		
+		System.out.println("ajax 이메일체크" + email);
+		boolean isExist = false;
+		
+		isExist = service.emailCheck(email);
+		System.out.println(isExist);
+		return isExist;
+	}
+	
 	
 	
 }

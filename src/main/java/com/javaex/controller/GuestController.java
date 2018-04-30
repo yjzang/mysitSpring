@@ -50,7 +50,6 @@ public class GuestController {
 		map.put("no", no);
 		map.put("password", password);
 		int flag = service.delete(map);
-		System.out.println(flag);
 		if(flag!=0) {
 			return "redirect:/guest/getList";
 		} else{

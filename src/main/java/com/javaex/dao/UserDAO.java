@@ -38,4 +38,10 @@ public class UserDAO {
 			return sqlSession.selectOne("userDB.getAll",no);
 		}
 		
+		public String emailCheck (String email) {
+			
+			return sqlSession.selectOne("userDB.emailCheck", email);
+		}
+		
+		
 }

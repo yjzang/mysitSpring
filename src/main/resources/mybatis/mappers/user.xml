@@ -13,6 +13,14 @@
        ]]>
 </insert>
 
+<select id="emailCheck"  parameterType="String" resultType="string">
+	<![CDATA[
+	select no
+	from user_tbl 
+	where email=#{email} 
+    ]]>
+
+</select>
 
 <select id="getUser"  parameterType="map" resultType="userVO">
 	<![CDATA[

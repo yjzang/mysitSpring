@@ -43,6 +43,21 @@ public class UserService {
 		
 	}
 	
+	public boolean emailCheck(String email) {
+		
+		String no = null;
+		boolean flag = false;
+		no = dao.emailCheck(email);
+		if(no==null) {
+			
+			flag = true;
+			System.out.println(flag);
+			
+		} 
+		return flag; 
+		
+	}
+	
 	
 	
 }

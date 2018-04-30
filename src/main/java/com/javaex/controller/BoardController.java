@@ -59,8 +59,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/writeform", method=RequestMethod.GET)
-	public String writeForm(PagerVO vo,Model model) {
-		
+	public String writeForm(@ModelAttribute PagerVO vo,Model model) {
+		System.out.println("writeform");
 		model.addAttribute("vo",vo);
 		return "board/write";
 	}
