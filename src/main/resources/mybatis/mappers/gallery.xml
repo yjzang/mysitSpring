@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="galDB">
+
+  
+<select id="selectImg" parameterType="int" resultMap="resultMapList">
+<![CDATA[
+	select * from gallery_tbl where no=#{no} order by no desc
+]]>
+</select>
+ 
+ 
+ 
+<select id="getList" parameterType="fileVO" resultMap="resultMapList">
+<![CDATA[
+	select *
+	from (select tbl.*,rownum rnum
+	from (select * from gallery_tbl order by no desc) tbl)
+	where rnum between #{begin} and #{end}
+]]>
+</select>
+
+
+<resultMap type="fileVO" id="resultMapList">
+	<result column="no" property="no"/>
+	<result column="orgname" property="orgName"/>
+	<result column="savename" property="saveName"/>
+	<result column="filepath" property="filePath"/>
+	<result column="filesize" property="fileSize"/>
+	<result column="userno" property="userNo"/>
+</resultMap>
+
+
+<insert id="insert" parameterType="fileVO">
+
+	insert into gallery_tbl
+	values(seq_gallery_no.nextval,#{orgName},#{saveName},#{filePath},#{fileSize},#{userNo})
+
+</insert>
+
+<delete id="delete" parameterType="int">
+
+	delete 
+	from gallery_tbl
+	where no=#{no}	
+	
+</delete>
+
+
+</mapper>

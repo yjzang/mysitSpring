@@ -3,16 +3,31 @@ package com.javaex.vo;
 public class GuestVO {
 
 	
-	String no ; 
+	int no ; 
 	String name;
 	String password;
 	String content;
 	String date;
+	int begin;
+	int end;
 	
-	public String getNo() {
+	
+	public int getEnd() {
+		return end;
+	}
+	public void setEnd(int end) {
+		this.end = end;
+	}
+	public int getBegin() {
+		return begin;
+	}
+	public void setBegin(int begin) {
+		this.begin = begin;
+	}
+	public int getNo() {
 		return no;
 	}
-	public void setNo(String no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 	public String getName() {

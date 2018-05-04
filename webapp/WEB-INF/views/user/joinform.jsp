@@ -31,10 +31,10 @@
 				<div id="user">
 						
 					<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath}/user/join">
-						<input type="hidden" id="name_check" class=check >
-						<input type="hidden" id="email_check" class=check >
-						<input type="hidden" id="pw_check"  class=check >
-						<input type="hidden" id="agree_check"  class=check >
+						<input type="hidden" id="name_check" class=check value=false >
+						<input type="hidden" id="email_check" class=check value=false >
+						<input type="hidden" id="pw_check"  class=check value=false >
+						<input type="hidden" id="agree_check"  class=check value=false >
 						
 						<label class="block-label" for="name">이름</label>
 						<input id="name" name="name" type="text" value="">
@@ -55,11 +55,11 @@
 						
 						<fieldset>
 							<legend>약관동의</legend>
-							<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
+							<input id="agree-prov" type="checkbox" name="agreeProv" >
 							<label>서비스 약관에 동의합니다.</label>
 							<div id="msg_agree"> </div>
 						</fieldset>
-						
+						<div id="msg_final"> </div>
 						<input class="submit" type="submit" id="join" value="가입하기">
 						
 					</form>
@@ -77,7 +77,7 @@
 
 <script type="text/javascript">
 
-$("#email").on("change",function(){
+$("#email").on("change", function(){
   var email = $("#email").val();
   console.log(email);
   
@@ -113,22 +113,23 @@ $("#email").on("change",function(){
 	  
 	  error : function(XHR, status, error){
 
-		console.error(XHR+status+error);
+		 console.error(XHR+status+error);
 	  }
   });
   
 });
   
-$("#name").on("blur",function(){
+$("#name").on("blur", function name_check(){
 
-	  var name_check = $("#name").val();
+	  var name_val = $("#name").val();
 	  
-	  if(name_check==null||name_check==""){
+	  if(name_val==""||name_val==null){
 		  
 			 $("#msg_name").html("이름을 입력하세요.");
 			 $("#msg_name").css("color","red");
 			 $("#msg_name").css("margin","5px");
-		  	
+			 $("#name_check").val(false);
+			 
 	  } else {
 		  
 		  $("#msg_name").html("");
@@ -137,16 +138,16 @@ $("#name").on("blur",function(){
 	  }
 	  
 });  
-$("#password").on("blur",function(){
+$("#password").on("blur",function pw_check(){
 
-	  var pw_check = $("#password").val();
+	  var pw_val = $("#password").val();
 	  
-	  if(!pw_check){
+	  if(pw_val==""||pw_val==null){
 		  
 		  $("#msg_pw").html("비밀번호를 입력하세요.");
 		  $("#msg_pw").css("color","red");
 	   	  $("#msg_pw").css("margin","5px");
-	
+	   	  $("#pw_check").val(false);
 		  	
 	  } else {
 		  $("#msg_pw").html("");
@@ -157,30 +158,32 @@ $("#password").on("blur",function(){
 	  
 });  
 
-$("#email").on("blur",function(){
+$("#email").on("blur",function email_check(){
 
-	  var email_check = $("#email").val();
+	  var email_val = $("#email").val();
 	  
-	  if(email_check==null||email_check==""){
+	  if(email_val==""){
 		  
 			 $("#msg_email").html("이메일을 입력하세요.");
 			 $("#msg_email").css("color","red");
 			 $("#msg_email").css("margin","5px");
-		  	
+			 $("#email_check").val(false);
 	  } else {
 		  
 		  if($("#email_check").val()){
 			  $("#msg_email").html("");
+			  $("#email_check").val(true);
 		  } else{
 			  
 			  $("#msg_email").html("이메일 중복체크 하세요.");
+			  $("#email_check").val(false);
 		  }
 		
 	  }
 	  
 });  
 
-$("#join").on("click",function(){
+$("#join").on("click",function agree_check(){
 
 	 var check = $("[type='checkbox']").is(":checked");
 	  var check_val = $("[type='checkbox']").val();
@@ -195,9 +198,9 @@ $("#join").on("click",function(){
 			 $("#agree_check").val(false);
 			 
 	  } else {
+		  
 		  $("#msg_agree").html("");	
 		  $("#agree_check").val(true);
-		
 			  
 	  }
 	  
@@ -205,20 +208,28 @@ $("#join").on("click",function(){
 
 $("#join").on("click",function(){
 
-	console.log($("#agree_check").val());
-	console.log($("#email_check").val());
+	
+	console.log("-------------");
 	console.log($("#name_check").val());
+	console.log($("#email_check").val());
 	console.log($("#pw_check").val());
-	 if($("#agree_check").val()&& $("#email_check").val() && $("#name_check").val() && $("#pw_check").val()){
+	console.log($("#agree_check").val());
+
+	var val1= $("#agree_check").val(); 
+	var val2= $("#email_check").val(); 
+	var val3= $("#name_check").val(); 
+	var val4= $("#pw_check").val(); 
+	
+	 if(val1=="true"&&val2=="true"&&val3=="true"&&val4=="true"){
 		 
 		 return true;
 		 
 	 } else {
 		 
+		 $("#msg_final").html("<br>입력하신 정보를 다시 확인하세요.").css("color","red").css("margin","5px").css("text-align","center");
 		 return false;
 		 
 	 }
-	  
 });
 
 

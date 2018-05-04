@@ -16,22 +16,27 @@ public class GuestDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public void add(GuestVO vo) {
+	public int add(GuestVO vo) {
 		
-		System.out.println(vo.toString());
 		sqlSession.insert("guestbook.insert",vo);
+		System.out.println(vo.getNo());
+		return vo.getNo();
+	}
+	
+	public int delete(GuestVO vo) {
+		
+		return sqlSession.delete("guestbook.delete",vo);
 		
 	}
 	
-	public int delete(HashMap<String, String> map) {
+	public List<GuestVO> getList(GuestVO vo) {
 		
-		return sqlSession.delete("guestbook.delete",map);
-		
+		return sqlSession.selectList("guestbook.list",vo);
 	}
 	
-	public List<GuestVO> getList() {
+	public List<GuestVO> getList_target(int no) {
 		
-		return sqlSession.selectList("guestbook.list");
+		return sqlSession.selectList("guestbook.list_target",no);
 	}
 	
 	

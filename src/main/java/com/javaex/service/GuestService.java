@@ -1,5 +1,6 @@
 package com.javaex.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,21 +19,39 @@ public class GuestService {
 		private GuestDAO dao;
 		
 		@RequestMapping
-		public List<GuestVO> getList(){
+		public List<GuestVO> getList(int begin){
 			
-			return dao.getList();
+			GuestVO vo = new GuestVO();
+			int end=0;
+			end = begin+4;
+			vo.setBegin(begin);
+			vo.setEnd(end);
+			return dao.getList(vo);
 		}
+		
 		@RequestMapping
-		public void add(GuestVO vo){
+		public GuestVO add(GuestVO vo){
 			
-			dao.add(vo);
+			int no = dao.add(vo);
+			ArrayList<GuestVO> list = (ArrayList<GuestVO>)dao.getList_target(no) ;
+			return list.get(0);
 			
 		}
 		
 		@RequestMapping
-		public int delete(HashMap<String, String> map){
+		public String delete(GuestVO vo){
 			
-			return dao.delete(map);
+			int flag = dao.delete(vo);
+			String result = "false";
+			if(vo.getPassword()==null||vo.getPassword()=="") {
+				
+				result="empty";
+				
+			} else if(flag!=0) {
+				
+				result="true";
+			} 
+			return result;
 		}
 		
 			
