@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.FileUploadService;
 import com.javaex.vo.FileVO;
+import com.javaex.vo.UserVO;
 
 @Controller
 @RequestMapping("/gallery")
@@ -23,6 +26,7 @@ public class GalleryController {
 
 	@Autowired
 	FileUploadService service;
+	HttpSession session;
 	
 	
 	@RequestMapping(value="/form",method=RequestMethod.GET)
@@ -35,12 +39,10 @@ public class GalleryController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value="/getList",method=RequestMethod.POST)
+	@RequestMapping(value="/getList",method= {RequestMethod.GET, RequestMethod.POST})
 	public ArrayList<FileVO> getList(@RequestParam int begin, Model model) {
 		
-		System.out.println("서비스 전"+begin);
 		ArrayList<FileVO> list =(ArrayList<FileVO>)service.getList(begin);
-		System.out.println("서비스 후"+begin);
 		return list;
 	
 	}
@@ -63,8 +65,6 @@ public class GalleryController {
 			service.restore(map);
 		}
 	
-		ArrayList<FileVO> list = service.getList(vo.getBegin());
-		model.addAttribute("list", list);
 		return "gallery/list";
 	}
 	
@@ -88,6 +88,15 @@ public class GalleryController {
 		return result;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/upLike", method=RequestMethod.POST)
+	public FileVO upLike(@ModelAttribute FileVO vo) {
+		
+		System.out.println("스테이트"+vo.getState());
+		FileVO resultVO = service.upLike(vo);
+		System.out.println("서비스 다녀온"+vo.getState());
+		return resultVO;
+	}
 	
 
 	

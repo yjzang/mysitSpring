@@ -1,6 +1,7 @@
 package com.javaex.service;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,7 +29,7 @@ public class FileUploadService {
 				MultipartFile file = (MultipartFile)map.get("file");
 				FileVO vo =(FileVO)map.get("vo");
 				
-				String saveDir = "D:\\javaStudy\\upload";
+				String saveDir = "C:\\javaStudy\\upload";
 				
 		
 				//오리지날 파일명
@@ -87,12 +88,37 @@ public class FileUploadService {
 			vo.setEnd(end);
 			return (ArrayList<FileVO>)dao.getList(vo);
 			
+			
 		}
 		
 		public FileVO selectImg(int no) {
 			
 			FileVO vo=dao.selectImg(no);
 			return vo;
+		}
+		
+		public FileVO upLike(FileVO vo) {
+			
+			String state = vo.getState();
+			System.out.println("서비스 스테이트 " +state);
+			FileVO resultVO= new FileVO();
+			
+			if("0".equals(state)) {
+				System.out.println("서비스 스테이트 실행여부0" +state);
+				vo.setState("1");
+				dao.upLike(vo);
+				
+			} else {
+				System.out.println("서비스 스테이트 실행여부1" +state);
+				vo.setState("0");
+				dao.downLike(vo);
+			}
+			
+			int no = Integer.parseInt(vo.getNo());
+			resultVO = dao.selectImg(no);
+			resultVO.getLike();
+			return resultVO;
+			
 		}
 		
 		public String delete(int no) {

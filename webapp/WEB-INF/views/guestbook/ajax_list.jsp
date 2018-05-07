@@ -19,7 +19,7 @@
 	#content{font-family: 'Jeju Hallasan', serif; line-height : 150%;}
 	#submit{font-family: 'Jeju Hallasan', serif;}
 </style>
-<script type="text/javascript" src="/jqueryex/jquery/jquery-1.12.4.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/bootstrap/js/bootstrap.min.js"></script>
 
 <body>
@@ -33,7 +33,7 @@
 		
 		<div id="wrapper">
 			<div id="content">
-				<div id="guestbook">
+				<div id="guestbook" >
 					
 				
 						<table>
@@ -49,7 +49,7 @@
 							</tr>
 						</table>
 						
-					<ul id="guest-list">
+					<ul id="guest-list"  style="width:500px;display:inline-block;">
 					
 					</ul>
 				<button type="button" id="btn_more"style="height:30px; width:540px;" > 더 보기 </button>
@@ -332,7 +332,7 @@
 		  str+= "	</tr>";
 		  str+= "	<tr>";
 		  str+= "	<td colspan=4>";
-		  str+= "	<pre id='content'>"+vo.content+"</pre>";
+		  str+= "	<pre-line id='content'>"+vo.content+"</pre-line>";
 		  str+= "	</td>";
 		  str+= "	</tr>";
 		  str+= "	 </table>";

@@ -13,12 +13,33 @@ public class FileVO {
 	int begin;
 	int end;
 	String userNo;
+	String userName;
+	String like;
+	String state;
 	
 	
 	
 	
 	
 	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getLike() {
+		return like;
+	}
+	public void setLike(String like) {
+		this.like = like;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public String getUserNo() {
 		return userNo;
 	}
@@ -73,9 +94,13 @@ public class FileVO {
 	@Override
 	public String toString() {
 		return "FileVO [no=" + no + ", filePath=" + filePath + ", saveName=" + saveName + ", orgName=" + orgName
-				+ ", fileSize=" + fileSize + ", begin=" + begin + ", end=" + end + ", userNo=" + userNo + "]";
+				+ ", fileSize=" + fileSize + ", begin=" + begin + ", end=" + end + ", userNo=" + userNo + ", userName="
+				+ userName + "]";
 	}
 	
+	
+
+
 	
 	
 	

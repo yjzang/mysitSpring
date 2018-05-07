@@ -8,7 +8,7 @@
   
 <select id="selectImg" parameterType="int" resultMap="resultMapList">
 <![CDATA[
-	select * from gallery_tbl where no=#{no} order by no desc
+	select * from gallery_tbl where no=#{no}
 ]]>
 </select>
  
@@ -18,7 +18,7 @@
 <![CDATA[
 	select *
 	from (select tbl.*,rownum rnum
-	from (select * from gallery_tbl order by no desc) tbl)
+	from (select g.*,u.name from gallery_tbl g,user_tbl u where g.userno=u.no order by g.no desc) tbl)
 	where rnum between #{begin} and #{end}
 ]]>
 </select>
@@ -31,13 +31,15 @@
 	<result column="filepath" property="filePath"/>
 	<result column="filesize" property="fileSize"/>
 	<result column="userno" property="userNo"/>
+	<result column="name" property="userName"/>
+	<result column="love" property="like"/>
 </resultMap>
 
 
 <insert id="insert" parameterType="fileVO">
 
 	insert into gallery_tbl
-	values(seq_gallery_no.nextval,#{orgName},#{saveName},#{filePath},#{fileSize},#{userNo})
+	values(seq_gallery_no.nextval,#{orgName},#{saveName},#{filePath},#{fileSize},#{userNo},0,0)
 
 </insert>
 
@@ -48,6 +50,19 @@
 	where no=#{no}	
 	
 </delete>
+
+<update id="upLike" parameterType="fileVO"> 
+	update gallery_tbl 
+	set love=love+1,state=#{state}
+	where no=#{no} 
+</update>
+
+
+<update id="downLike" parameterType="fileVO"> 
+	update gallery_tbl 
+	set love=love-1,state=#{state}
+	where no=#{no} 
+</update>
 
 
 </mapper>

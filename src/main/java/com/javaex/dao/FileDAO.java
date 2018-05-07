@@ -37,4 +37,18 @@ public class FileDAO {
 		
 		return sqlSession.delete("galDB.delete",no);
 	}
+	
+	public void upLike(FileVO vo) {
+		
+		int flag = sqlSession.update("galDB.upLike",vo);
+		System.out.println("다오 업데이트 여부 up"+flag);
+	}
+	
+	public void downLike(FileVO vo) {
+		
+		int flag = sqlSession.update("galDB.downLike",vo);
+		System.out.println("다오 업데이트 여부 down"+flag);
+	}
+	
+	
 }
